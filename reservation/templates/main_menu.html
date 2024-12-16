@@ -1,0 +1,39 @@
+{% block content %}
+<header data-bs-theme="dark">
+    <div class="collapse text-bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 offset-md-10 py-4">
+                    <ul class="list-unstyled">
+                        {% if user.is_superuser %}
+                        <li><a class="nav-item nav-link link-body-emphasis"
+                               href="{% url 'admin:index' %}">Админ-панель</a></li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'reservation:base' %}" class="text-white">Главная страница</a></li>
+                        <li><a href="{% url 'reservation:table_list' %}" class="text-white">Список столов</a></li>
+                        <li><a href="{% url 'users:profile' %}" class="text-white">Профиль</a></li>
+                        <li><a href="{% url 'reservation:about_resto' %}" class="text-white">О ресторане</a></li>
+                        <li><a href="{% url 'users:logout' %}" class="text-white">Выход</a></li>
+                        {% else %}
+                        <li><a href="{% url 'users:login' %}" class="text-white">Вход</a>/<a
+                                href="{% url 'users:register' %}" class="text-white">Регистрация</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a href="/" class="navbar-brand d-flex align-items-center">
+                <strong>Рыба и мясо</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>
+{% endblock %}

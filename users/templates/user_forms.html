@@ -1,0 +1,24 @@
+{% extends 'reservation/base.html' %}
+{% block content %}
+<div class="row">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% if user.is_authenticated %}
+                    <button type="submit" class="btn btn-success">
+                        Сохранить
+                    </button>
+                    {% else %}
+                    <button type="submit" class="btn btn-success">
+                        Зарегистрироваться
+                    </button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
