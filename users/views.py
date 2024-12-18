@@ -5,18 +5,18 @@ import string
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
-from users.forms import UserRegisterForm, ProfileForm, UserLoginForm
+from config.settings import EMAIL_HOST_USER
+from users.forms import ProfileForm, UserLoginForm, UserRegisterForm
 from users.models import User
-# from config.settings import EMAIL_HOST_USER
 
 
 class UserCreateView(CreateView):
     model = User
     form_class = UserRegisterForm
-    success_url = reverse_lazy('users:login')
+    success_url = reverse_lazy("users:login")
 
     def form_valid(self, form):
         user = form.save()
@@ -25,12 +25,12 @@ class UserCreateView(CreateView):
         user.token = token
         user.save()
         host = self.request.get_host()
-        url = f'http://{host}/users/email_confirm/{token}/'
+        url = f"http://{host}/users/email_confirm/{token}/"
         send_mail(
             subject="Подтверждение почты",
             message=f"Привет, перейди по ссылке для подтверждения почты {url}",
             from_email=EMAIL_HOST_USER,
-            recipient_list=[user.email]
+            recipient_list=[user.email],
         )
         return super().form_valid(form)
 
@@ -76,5 +76,5 @@ class ProfileView(UpdateView):
 
 
 class UserLoginView(LoginView):
-    template_name = 'users/login.html'
+    template_name = "users/login.html"
     form_class = UserLoginForm
